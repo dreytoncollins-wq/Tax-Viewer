@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarrant Tax Delinquency Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(229, 231, 235, 0.5); }
+        tr:hover td { background-color: #f3f4f6; }
+        .custom-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 h-screen flex flex-col overflow-hidden">
+
+    <!-- Navbar -->
+    <nav class="bg-slate-900 text-white p-4 shadow-lg shrink-0 z-10">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-gavel text-amber-500 text-xl"></i>
+                <h1 class="text-xl font-bold tracking-wide">Tarrant County Tax Hawk</h1>
+            </div>
+            <div class="text-sm text-slate-400">
+                Records: <span id="record-count" class="text-white font-mono">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Control Bar -->
+    <div class="bg-white border-b border-slate-200 p-4 shrink-0 shadow-sm z-10">
+        <div class="container mx-auto flex flex-col gap-4">
+            <div class="flex flex-col md:flex-row gap-4 justify-between items-end md:items-center">
+                <!-- Search -->
+                <div class="relative w-full md:w-96">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fa-solid fa-search text-slate-400"></i>
+                    </div>
+                    <input type="text" id="searchInput" 
+                        class="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded-lg leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out" 
+                        placeholder="Search owner, address, or account #...">
+                </div>
+
+                <!-- Actions -->
+                <div class="flex gap-3 items-center">
+                    <button onclick="loadData()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-rotate"></i> Reload Data
+                    </button>
+                    
+                    <button onclick="exportCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-file-csv"></i> Export CSV
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats strip -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="glass-panel rounded-lg px-4 py-3 flex flex-col">
+                    <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total Delinquency</span>
+                    <span id="total-debt" class="text-lg font-bold text-red-600">$0.00</span>
+                </div>
+                <div class="glass-panel rounded-lg px-4 py-3 flex flex-col">
+                    <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Average Per Account</span>
+                    <span id="avg-debt" class="text-sm font-bold text-slate-800">$0.00</span>
+                </div>
+                <div class="glass-panel rounded-lg px-4 py-3 flex flex-col">
+                    <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Median Delinquency</span>
+                    <span id="median-debt" class="text-sm font-bold text-slate-800">$0.00</span>
+                </div>
+                <div class="glass-panel rounded-lg px-4 py-3 flex flex-col">
+                    <span class="text-xs font-semibold text-slate-500 uppercase tracking-wide">High-Balance Accounts (&gt; $50k)</span>
+                    <span id="high-count" class="text-sm font-bold text-amber-700">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Table Container -->
+    <div class="flex-1 overflow-auto custom-scroll p-4 md:p-8">
+        <div class="container mx-auto">
+            
+            <div id="empty-state" class="text-center py-20">
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-slate-200 mb-6">
+                    <i class="fa-solid fa-file-invoice-dollar text-3xl text-slate-500"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-700 mb-2">No Records Loaded</h2>
+                <p class="text-slate-500 max-w-md mx-auto mb-6">
+                    Place your processed <code>delinquent_records.json</code> file in the same folder as this HTML file,
+                    or select it manually below.
+                </p>
+                <div class="mt-8">
+                    <label class="cursor-pointer bg-white border border-slate-300 hover:border-blue-500 hover:text-blue-500 text-slate-600 px-6 py-3 rounded-lg shadow-sm transition-all font-medium">
+                        <i class="fa-solid fa-upload mr-2"></i> Select JSON File Manually
+                        <input type="file" id="fileInput" accept=".json" class="hidden">
+                    </label>
+                </div>
+            </div>
+
+            <div id="table-container" class="hidden shadow-xl rounded-lg overflow-hidden border border-slate-200 bg-white">
+                <table class="min-w-full divide-y divide-slate-200">
+                    <thead class="bg-slate-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100" onclick="sortTable('_rank')">Rank</th>
+                            <th class="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100" onclick="sortTable('owner')">Owner Name</th>
+                            <th class="px-4 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100" onclick="sortTable('address')">Mailing Address</th>
+                            <th class="px-4 py-3 text-right text-xs font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100" onclick="sortTable('due')">Amount Due</th>
+                            <th class="px-4 py-3 text-right text-xs font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100" onclick="sortTable('_share')">% of Total</th>
+                            <th class="px-4 py-3 text-center text-xs font-bold text-slate-500 uppercase tracking-wider">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="bg-white divide-y divide-slate-200"></tbody>
+                </table>
+            </div>
+            
+            <div id="loader" class="hidden fixed inset-0 bg-white/80 z-50 flex items-center justify-center">
+                <div class="flex flex-col items-center">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+                    <p class="text-blue-600 font-semibold animate-pulse">Processing...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simple detail modal -->
+    <div id="detail-modal" class="hidden fixed inset-0 bg-black/40 z-50 items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full mx-4 p-6 relative">
+            <button class="absolute top-3 right-3 text-slate-400 hover:text-slate-600" onclick="closeDetail()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h2 class="text-lg font-bold text-slate-900 mb-4">Account Details</h2>
+            <div id="detail-content" class="space-y-2 text-sm text-slate-700"></div>
+        </div>
+    </div>
+
+    <script>
+        let allRecords = [];
+        let filteredRecords = [];
+        let sortDirection = 1;
+        let lastSortKey = 'due';
+
+        const currency = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+        const percentFmt = new Intl.NumberFormat('en-US', { style: 'percent', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        document.getElementById('fileInput').addEventListener('change', handleFileUpload);
+        document.getElementById('searchInput').addEventListener('input', (e) => filterData(e.target.value));
+        window.addEventListener('load', () => { loadData(); });
+
+        function toggleLoader(show) {
+            document.getElementById('loader').classList.toggle('hidden', !show);
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            toggleLoader(true);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    if (!Array.isArray(parsed)) {
+                        alert("JSON file must be an array of records.");
+                        return;
+                    }
+                    allRecords = parsed;
+                    postProcessRecords();
+                    filteredRecords = [...allRecords];
+                    initData();
+                } catch (err) {
+                    console.error(err);
+                    alert("Error parsing JSON file.");
+                } finally {
+                    toggleLoader(false);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        async function loadData() {
+            toggleLoader(true);
+            try {
+                const response = await fetch('delinquent_records.json');
+                if (!response.ok) throw new Error('Fetch failed');
+                const data = await response.json();
+                if (!Array.isArray(data)) throw new Error('JSON root must be an array');
+                allRecords = data;
+                postProcessRecords();
+                filteredRecords = [...allRecords];
+                initData();
+            } catch (error) {
+                console.log("Auto-load failed (likely opening file directly). Use manual JSON upload.", error);
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        // Derive rank, share of total, owner type, stats
+        function postProcessRecords() {
+            // Ensure numeric due
+            allRecords.forEach(r => {
+                r.due = parseFloat(r.due || 0);
+            });
+
+            // Sort by due desc for ranking baseline
+            allRecords.sort((a, b) => b.due - a.due);
+
+            const total = allRecords.reduce((sum, r) => sum + (r.due || 0), 0);
+            let highCount = 0;
+            const amounts = allRecords.map(r => r.due).sort((a, b) => a - b);
+
+            allRecords.forEach((r, idx) => {
+                r._rank = idx + 1;
+                r._share = total > 0 ? (r.due / total) : 0;
+
+                if (r.due > 50000) highCount++;
+                r._ownerType = classifyOwner(r.owner || '');
+            });
+
+            // Stats
+            const avg = allRecords.length ? total / allRecords.length : 0;
+            const median = amounts.length
+                ? (amounts.length % 2 === 1
+                    ? amounts[(amounts.length - 1) / 2]
+                    : (amounts[amounts.length / 2 - 1] + amounts[amounts.length / 2]) / 2)
+                : 0;
+
+            document.getElementById('total-debt').innerText = currency.format(total);
+            document.getElementById('avg-debt').innerText = currency.format(avg);
+            document.getElementById('median-debt').innerText = currency.format(median);
+            document.getElementById('high-count').innerText = highCount.toLocaleString();
+        }
+
+        function initData() {
+            document.getElementById('empty-state').classList.add('hidden');
+            document.getElementById('table-container').classList.remove('hidden');
+            document.getElementById('record-count').textContent = allRecords.length.toLocaleString();
+            sortDirection = -1;
+            lastSortKey = 'due';
+            sortTable('due', true);
+        }
+
+        function filterData(query) {
+            const lower = query.toLowerCase();
+            filteredRecords = allRecords.filter(r => {
+                const owner = (r.owner || '').toLowerCase();
+                const addr  = (r.address || '').toLowerCase();
+                const acct  = (r.account || '').toString();
+                return (
+                    owner.includes(lower) ||
+                    addr.includes(lower) ||
+                    acct.includes(lower)
+                );
+            });
+            renderTable();
+        }
+
+        function sortTable(key, keepDirection = false) {
+            if (!keepDirection) {
+                if (lastSortKey === key) {
+                    sortDirection *= -1;
+                } else {
+                    sortDirection = key === 'due' ? -1 : 1;
+                    lastSortKey = key;
+                }
+            } else {
+                lastSortKey = key;
+            }
+
+            filteredRecords.sort((a, b) => {
+                let valA = a[key];
+                let valB = b[key];
+
+                if (key === 'due' || key === '_share' || key === '_rank') {
+                    valA = parseFloat(valA || 0);
+                    valB = parseFloat(valB || 0);
+                } else {
+                    valA = (valA || '').toString().toLowerCase();
+                    valB = (valB || '').toString().toLowerCase();
+                }
+
+                if (valA === valB) return 0;
+                return (valA < valB ? -1 : 1) * sortDirection;
+            });
+            renderTable();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            let html = '';
+
+            const recordsToDisplay = filteredRecords.slice(0, 100);
+
+            recordsToDisplay.forEach(record => {
+                const account = record.account || '';
+                const owner = record.owner || 'Unknown';
+                const address = record.address || 'Unknown';
+                const amountDue = parseFloat(record.due || 0);
+                const isHigh = amountDue > 50000;
+                const share = record._share || 0;
+                const ownerType = record._ownerType || 'Unknown';
+
+                const ownerTypeBadge = ownerType === 'Government'
+                    ? '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-800 ml-1">Gov</span>'
+                    : ownerType === 'Corporate'
+                        ? '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800 ml-1">Corp</span>'
+                        : '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-700 ml-1">Indiv</span>';
+
+                html += `
+                    <tr class="transition-colors cursor-pointer" onclick="showDetail(${encodeURIComponent(JSON.stringify(account))})">
+                        <td class="px-4 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-xs font-semibold text-slate-700">#${record._rank || ''}</span>
+                        </td>
+                        <td class="px-4 py-4 whitespace-nowrap">
+                            <div class="text-sm font-semibold text-slate-900 truncate max-w-xs">
+                                ${owner}${ownerTypeBadge}
+                            </div>
+                            <div class="text-xs text-slate-500">Acct: ${account}</div>
+                        </td>
+                        <td class="px-4 py-4 whitespace-nowrap">
+                            <div class="text-sm text-slate-700 truncate max-w-xs">${address}</div>
+                        </td>
+                        <td class="px-4 py-4 whitespace-nowrap text-right">
+                            <div class="text-sm font-bold ${isHigh ? 'text-red-600' : 'text-slate-700'}">${currency.format(amountDue)}</div>
+                            ${isHigh ? '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-red-100 text-red-800 mt-1">High</span>' : ''}
+                        </td>
+                        <td class="px-4 py-4 whitespace-nowrap text-right">
+                            <span class="text-xs font-mono text-slate-600">${percentFmt.format(share)}</span>
+                        </td>
+                        <td class="px-4 py-4 whitespace-nowrap text-center text-sm font-medium">
+                            <a href="https://tax.tarrantcountytx.gov/search" target="_blank" class="text-blue-600 hover:text-blue-900 hover:underline" onclick="event.stopPropagation();">
+                                Verify <i class="fa-solid fa-external-link-alt text-xs ml-1"></i>
+                            </a>
+                        </td>
+                    </tr>`;
+            });
+
+            if (filteredRecords.length === 0) {
+                html = `<tr><td colspan="6" class="px-6 py-10 text-center text-slate-500">No records found.</td></tr>`;
+            }
+
+            tbody.innerHTML = html;
+        }
+
+        // Very simple owner type classifier
+        function classifyOwner(name) {
+            const upper = name.toUpperCase();
+            if (!upper) return 'Unknown';
+
+            if (
+                upper.includes(' CITY OF') ||
+                upper.includes(' COUNTY') ||
+                upper.includes(' ISD') ||
+                upper.includes(' SCHOOL DIST') ||
+                upper.includes(' COLLEGE DIST') ||
+                upper.includes(' HOSPITAL DIST') ||
+                upper.includes(' TARRANT COUNTY')
+            ) {
+                return 'Government';
+            }
+            if (
+                upper.includes(' LLC') ||
+                upper.includes(' LP') ||
+                upper.includes(' INC') ||
+                upper.includes(' CO ') ||
+                upper.includes(' COMPANY') ||
+                upper.includes(' PROPERTIES') ||
+                upper.includes(' INVESTMENTS')
+            ) {
+                return 'Corporate';
+            }
+            return 'Individual';
+        }
+
+        function exportCSV() {
+            if (!allRecords.length) {
+                alert("No data to export yet.");
+                return;
+            }
+
+            const header = ['rank', 'account', 'owner', 'address', 'due', 'share_of_total', 'owner_type'];
+            const rows = [header.join(',')];
+
+            allRecords.forEach(rec => {
+                const account = (rec.account || '').toString().replace(/"/g, '""');
+                const owner = (rec.owner || '').toString().replace(/"/g, '""');
+                const address = (rec.address || '').toString().replace(/"/g, '""');
+                const due = parseFloat(rec.due || 0).toFixed(2);
+                const share = (rec._share || 0);
+                const ownerType = (rec._ownerType || '').toString().replace(/"/g, '""');
+
+                rows.push([
+                    rec._rank || '',
+                    `"${account}"`,
+                    `"${owner}"`,
+                    `"${address}"`,
+                    due,
+                    share.toFixed(6),
+                    `"${ownerType}"`
+                ].join(','));
+            });
+
+            const csvContent = rows.join('\r\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'tarrant_delinquent_tax_records_enriched.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // ---- Detail modal (simple) ----
+        function showDetail(account) {
+            const accStr = decodeURIComponent(account);
+            const rec = allRecords.find(r => String(r.account) === accStr);
+            if (!rec) return;
+
+            const modal = document.getElementById('detail-modal');
+            const content = document.getElementById('detail-content');
+
+            const share = rec._share || 0;
+            const ownerType = rec._ownerType || 'Unknown';
+
+            content.innerHTML = `
+                <div><span class="font-semibold">Account:</span> <span class="font-mono">${rec.account || ''}</span></div>
+                <div><span class="font-semibold">Owner:</span> ${rec.owner || 'Unknown'} <span class="ml-2 text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">${ownerType}</span></div>
+                <div><span class="font-semibold">Mailing Address:</span> ${rec.address || 'Unknown'}</div>
+                <div><span class="font-semibold">Amount Due:</span> ${currency.format(parseFloat(rec.due || 0))}</div>
+                <div><span class="font-semibold">Rank by Balance:</span> #${rec._rank || '—'}</div>
+                <div><span class="font-semibold">Share of Portfolio:</span> ${percentFmt.format(share)}</div>
+                <hr class="my-3">
+                <div class="text-xs text-slate-500">
+                    Use the Verify link in the table to view the full breakdown (years, penalties, interest) on the Tarrant portal.
+                </div>
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeDetail() {
+            const modal = document.getElementById('detail-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    </script>
+</body>
+</html>
