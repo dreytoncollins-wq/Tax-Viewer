@@ -1410,6 +1410,12 @@
     "due": 32043.78
   },
   {
+    "account": "00002020505",
+    "owner": "PHILLIPS GINGER",
+    "address": "1306 SMILAX AVE",
+    "due": 32037.66
+  },
+  {
     "account": "00071239508",
     "owner": "Unknown",
     "address": "Unknown",
@@ -1852,6 +1858,12 @@
     "owner": "Unknown",
     "address": "Unknown",
     "due": 26059.24
+  },
+  {
+    "account": "00003070166",
+    "owner": "111 E ROGERS LLC",
+    "address": "111 E ROGERS ST",
+    "due": 26011.54
   },
   {
     "account": "00014787364",
@@ -3660,12 +3672,6 @@
     "due": 15616.63
   },
   {
-    "account": "00000628166",
-    "owner": "KOPPANY KARL P",
-    "address": "1808 RIDGESIDE DR",
-    "due": 15598.9
-  },
-  {
     "account": "00014231854",
     "owner": "ELAINE TURNER DESIGNS LLC",
     "address": "1415 S VOSS RD STE 110",
@@ -3676,6 +3682,12 @@
     "owner": "FRIENDLY & FRIENDLY INC",
     "address": "1308 S COOPER ST",
     "due": 15572.48
+  },
+  {
+    "account": "00000275697",
+    "owner": "RACAK MARIA",
+    "address": "7817 NONEMAN DR",
+    "due": 15561.73
   },
   {
     "account": "00014274693",
@@ -7974,12 +7986,6 @@
     "due": 7454.66
   },
   {
-    "account": "00006557406",
-    "owner": "ASAS INVESTMENTS LLC",
-    "address": "2711 N SEPULVEDA BLVD",
-    "due": 7450.9
-  },
-  {
     "account": "00012111902",
     "owner": "ETHICUS HOSPITAL GRAPEVINE LP ATTN: TAX DEPT",
     "address": "4090 MAPLESHADE LN STE 220",
@@ -8496,12 +8502,6 @@
     "due": 7057.8
   },
   {
-    "account": "00005772095",
-    "owner": "MOXIE HOLDINGS LLC",
-    "address": "2604 NAPLES LN",
-    "due": 7056.8
-  },
-  {
     "account": "00062711628",
     "owner": "WELL SUSPENSE - DO",
     "address": "PO BOX 18496",
@@ -8886,6 +8886,12 @@
     "due": 6719.74
   },
   {
+    "account": "00006557406",
+    "owner": "ASAS INVESTMENTS LLC",
+    "address": "2711 N SEPULVEDA BLVD",
+    "due": 6719.24
+  },
+  {
     "account": "00001286307",
     "owner": "CITY OF MANSFIELD",
     "address": "1200 E BROAD ST",
@@ -8938,12 +8944,6 @@
     "owner": "UNLIMITED FITNESS CO INC",
     "address": "1609 DESERT HILLS DR",
     "due": 6690.31
-  },
-  {
-    "account": "00000877670",
-    "owner": "ROMINE PROPERTIES LLC",
-    "address": "300 GREENLEAF ST",
-    "due": 6677.28
   },
   {
     "account": "00014431888",
@@ -9882,6 +9882,12 @@
     "due": 5991.06
   },
   {
+    "account": "00001083511",
+    "owner": "WHITEHURST DR TRUST",
+    "address": "2106 PINWOOD CIR",
+    "due": 5987.95
+  },
+  {
     "account": "00014336389",
     "owner": "MUDSMITH COFFEE FORT WORTH LLCTAX DEPT",
     "address": "2114 GREENVILLE AVE",
@@ -9928,12 +9934,6 @@
     "owner": "*EXEMPT ENTITY*",
     "address": "101 W ABRAM ST",
     "due": 5959.79
-  },
-  {
-    "account": "00042338679",
-    "owner": "SONG KYLE J AND SONG EUN JA",
-    "address": "6901 CRUISER LN",
-    "due": 5958.77
   },
   {
     "account": "00064158499",
@@ -11988,6 +11988,12 @@
     "due": 4871.54
   },
   {
+    "account": "00001369539",
+    "owner": "LEWIS BUSBY STEPHANIE",
+    "address": "1501 W SPURGEON ST",
+    "due": 4869.0
+  },
+  {
     "account": "00062861042",
     "owner": "Unknown",
     "address": "Unknown",
@@ -12016,12 +12022,6 @@
     "owner": "PLAVA HAREDIN",
     "address": "1004 E 3RD ST",
     "due": 4850.07
-  },
-  {
-    "account": "00001470574",
-    "owner": "RIOS JOSE A",
-    "address": "1312 GIBSON LN",
-    "due": 4847.11
   },
   {
     "account": "00062862715",
@@ -12102,10 +12102,22 @@
     "due": 4807.02
   },
   {
+    "account": "51000056692",
+    "owner": "MURREY JOSHUA DANIEL ETUX KATR",
+    "address": "6600 PECANWOOD CT",
+    "due": 4806.69
+  },
+  {
     "account": "00012232297",
     "owner": "DOREA MINISTRIES",
     "address": "=5601 BASSWOOD BLVD STE 101",
     "due": 4806.32
+  },
+  {
+    "account": "00041392523",
+    "owner": "ALI AMEEN M AND ALI ANJUM",
+    "address": "401 RUNNING BEAR CT",
+    "due": 4805.91
   },
   {
     "account": "00013719688",
@@ -12292,6 +12304,12 @@
     "owner": "JUSTICE GERALDA",
     "address": "923 E WHITE TAIL DR",
     "due": 4727.57
+  },
+  {
+    "account": "00002018241",
+    "owner": "MYNAR MICHAEL LOUIS AND MYNAR",
+    "address": "2020 BLUEBONNET DR",
+    "due": 4724.51
   },
   {
     "account": "00013610899",
@@ -13036,6 +13054,12 @@
     "owner": "GONZALES MARTHA",
     "address": "4500 VERMONT AVE",
     "due": 4410.72
+  },
+  {
+    "account": "00001470574",
+    "owner": "RIOS JOSE A",
+    "address": "1312 GIBSON LN",
+    "due": 4406.22
   },
   {
     "account": "00012203084",
@@ -14308,6 +14332,12 @@
     "owner": "MEGABOTS INC",
     "address": "1526 JULIA ST",
     "due": 3951.04
+  },
+  {
+    "account": "00002366347",
+    "owner": "NEWMAN DEBORAH GAIL",
+    "address": "2920 ELM PK",
+    "due": 3950.45
   },
   {
     "account": "00065301102",
@@ -16254,6 +16284,12 @@
     "due": 3434.66
   },
   {
+    "account": "00001350048",
+    "owner": "BROOKS ARLANDERS JR",
+    "address": "4408 E KELLIS ST",
+    "due": 3432.81
+  },
+  {
     "account": "00062180932",
     "owner": "Unknown",
     "address": "Unknown",
@@ -16722,12 +16758,6 @@
     "due": 3323.23
   },
   {
-    "account": "00004983645",
-    "owner": "SAMUEL PRINCE MEMORAL BAPT CH",
-    "address": "2805 S WESLEYAN DR",
-    "due": 3320.19
-  },
-  {
     "account": "00013699865",
     "owner": "AGUILAR EVELIA",
     "address": "2130 B AVE",
@@ -17100,12 +17130,6 @@
     "due": 3250.12
   },
   {
-    "account": "00040584674",
-    "owner": "GARCIA MARTHA AND GARCIA A OLI",
-    "address": "9324 AUBREY CT",
-    "due": 3248.09
-  },
-  {
     "account": "00064158308",
     "owner": "Unknown",
     "address": "Unknown",
@@ -17188,6 +17212,12 @@
     "owner": "BARE ESCENTUALS BEAUTY INC",
     "address": "300 3RD AVE FL 27",
     "due": 3230.58
+  },
+  {
+    "account": "00004983645",
+    "owner": "SAMUEL PRINCE MEMORAL BAPT CH",
+    "address": "2805 S WESLEYAN DR",
+    "due": 3230.24
   },
   {
     "account": "00065112105",
@@ -18970,12 +19000,6 @@
     "owner": "SURBER JERRY",
     "address": "151 HARRIS RD",
     "due": 2871.94
-  },
-  {
-    "account": "00041330862",
-    "owner": "HERNANDEZ ANDREW",
-    "address": "2911 NW 20TH ST",
-    "due": 2871.65
   },
   {
     "account": "00004714121",
@@ -21832,6 +21856,12 @@
     "owner": "PERIKO MOTORS CORPORATION",
     "address": "2000 NW PKWY",
     "due": 2445.17
+  },
+  {
+    "account": "00041330862",
+    "owner": "HERNANDEZ ANDREW",
+    "address": "2911 NW 20TH ST",
+    "due": 2444.74
   },
   {
     "account": "00014596488",
@@ -26436,12 +26466,6 @@
     "due": 1899.54
   },
   {
-    "account": "00000326755",
-    "owner": "TREVINO YOLANDA",
-    "address": "4148 PATRICIA ST",
-    "due": 1898.64
-  },
-  {
     "account": "00013732188",
     "owner": "FLEXI COMPRAS CORP",
     "address": "PO BOX 222126",
@@ -26608,6 +26632,12 @@
     "owner": "STEP'N JTL LP",
     "address": "3102 OAK LAWN AVE STE 800",
     "due": 1887.3
+  },
+  {
+    "account": "00005167604",
+    "owner": "GUAJARDO ANNA M AND RIOJAS RAY",
+    "address": "3416 CREEKWOOD LN",
+    "due": 1885.9
   },
   {
     "account": "00011783273",
@@ -27522,6 +27552,12 @@
     "due": 1797.09
   },
   {
+    "account": "00001402250",
+    "owner": "COOK ROSEMARY HONEA",
+    "address": "2854 HANDLEY DR",
+    "due": 1796.94
+  },
+  {
     "account": "00014967362",
     "owner": "STEEL ENTRY LLC",
     "address": "130 N MAIN ST",
@@ -27580,6 +27616,12 @@
     "owner": "SPASIC AND ASSOCIATES INC",
     "address": "PO BOX 328701",
     "due": 1793.84
+  },
+  {
+    "account": "00014685081",
+    "owner": "HEPTA LLC",
+    "address": "1113 W PIPELINE RD STE 129",
+    "due": 1793.05
   },
   {
     "account": "00011781394",
@@ -27958,6 +28000,12 @@
     "owner": "KELLEY ATHLETIC COMPANY INC",
     "address": "6012 CAMPUS CIRCLE DR W STE 28",
     "due": 1758.88
+  },
+  {
+    "account": "00006633080",
+    "owner": "CALDWELL GOULD JANIE C",
+    "address": "5733 WILSON RD",
+    "due": 1758.48
   },
   {
     "account": "00012185914",
@@ -30724,12 +30772,6 @@
     "owner": "TEXAS STATE OF",
     "address": "2501 SW LOOP 820",
     "due": 1559.99
-  },
-  {
-    "account": "00003653994",
-    "owner": "HARRINGTON P J",
-    "address": "5720 CEDAR RIDGE DR",
-    "due": 1559.77
   },
   {
     "account": "00013477757",
@@ -34878,6 +34920,12 @@
     "due": 1314.72
   },
   {
+    "account": "00003653994",
+    "owner": "HARRINGTON P J",
+    "address": "5720 CEDAR RIDGE DR",
+    "due": 1313.93
+  },
+  {
     "account": "00041283724",
     "owner": "PHILLIPS, DALLAS",
     "address": "-340 LAS BRISAS DR",
@@ -35328,6 +35376,12 @@
     "due": 1292.96
   },
   {
+    "account": "00006077390",
+    "owner": "COX LASHAN",
+    "address": "4350 WALSH LN",
+    "due": 1292.36
+  },
+  {
     "account": "00010177310",
     "owner": "BUSINESS FLOORING INC",
     "address": "PO BOX 820249",
@@ -35530,12 +35584,6 @@
     "owner": "%CHESAPEAKE OPER- PROP TAX",
     "address": "PO BOX 18496",
     "due": 1278.47
-  },
-  {
-    "account": "00008302286",
-    "owner": "ROMINE ROMINE AND BURGESS INC ATTN: TAX DEPT",
-    "address": "300 GREENLEAF ST",
-    "due": 1277.78
   },
   {
     "account": "00013714171",
@@ -36004,6 +36052,12 @@
     "owner": "Unknown",
     "address": "Unknown",
     "due": 1251.87
+  },
+  {
+    "account": "00003345998",
+    "owner": "5804 WIMBLETON LLC",
+    "address": "5804 WIMBLETON WAY",
+    "due": 1251.76
   },
   {
     "account": "00040188388",
@@ -37446,12 +37500,6 @@
     "due": 1195.91
   },
   {
-    "account": "00003218015",
-    "owner": "REYES GUTIERREZ LIDIA ONDINA E",
-    "address": "1232 E HATTIE ST",
-    "due": 1195.79
-  },
-  {
     "account": "00001417606",
     "owner": "% DR JANICE COOPER",
     "address": "6805 TELEPHONE RD",
@@ -38074,12 +38122,6 @@
     "owner": "BARGIN ELECTRONICS",
     "address": "1401 BROWN TR STE C",
     "due": 1168.41
-  },
-  {
-    "account": "00000877743",
-    "owner": "ROMINE PROPERTIES LLC",
-    "address": "300 GREENLEAF ST",
-    "due": 1168.18
   },
   {
     "account": "00003249603",
@@ -38848,6 +38890,12 @@
     "owner": "*EXEMPT ENTITY*",
     "address": "101 W ABRAM ST",
     "due": 1130.96
+  },
+  {
+    "account": "00001904264",
+    "owner": "MENDEZ HOMES LLC",
+    "address": "1301 LAGONDA AVE",
+    "due": 1130.92
   },
   {
     "account": "00007548613",
@@ -43200,6 +43248,12 @@
     "due": 990.39
   },
   {
+    "account": "00014702474",
+    "owner": "NN POSH 2 NAIL AND SPA LLC",
+    "address": "4601 BOAT CLUB RD STE 121",
+    "due": 990.34
+  },
+  {
     "account": "00014560530",
     "owner": "NAVARRE CORP",
     "address": "7400 49TH AVE N",
@@ -43524,6 +43578,12 @@
     "due": 979.1
   },
   {
+    "account": "00000326755",
+    "owner": "TREVINO YOLANDA",
+    "address": "4148 PATRICIA ST",
+    "due": 978.94
+  },
+  {
     "account": "00014654755",
     "owner": "TWIN SYK 2 INC",
     "address": "3740 N JOSEY LN STE 152",
@@ -43678,12 +43738,6 @@
     "owner": "SCHUDER, CARL",
     "address": "215 E ROSEDALE ST",
     "due": 972.5
-  },
-  {
-    "account": "00041009843",
-    "owner": "CARABAJAL GREGORY",
-    "address": "906 HAMPTON RD",
-    "due": 972.19
   },
   {
     "account": "00013859161",
@@ -45876,12 +45930,6 @@
     "due": 912.77
   },
   {
-    "account": "00002046636",
-    "owner": "THORN DEREK",
-    "address": "2924 TANGLE OAKS CT",
-    "due": 912.72
-  },
-  {
     "account": "00013796887",
     "owner": "MARSH, RANDOLPH",
     "address": "5430 LYNDON B JOHNSON FWY",
@@ -47676,12 +47724,6 @@
     "due": 860.02
   },
   {
-    "account": "00014924833",
-    "owner": "XPEED GK CORP",
-    "address": "12535 MCCANN DR",
-    "due": 860.02
-  },
-  {
     "account": "00014609059",
     "owner": "BANIYA NIRON",
     "address": "2408 SHADY TURF DR",
@@ -48900,6 +48942,12 @@
     "due": 828.71
   },
   {
+    "account": "00004538625",
+    "owner": "PONDER MICHAEL L",
+    "address": "5304 TIFFIN DR",
+    "due": 828.65
+  },
+  {
     "account": "00064158065",
     "owner": "Unknown",
     "address": "Unknown",
@@ -49240,6 +49288,12 @@
     "owner": "URWAY CAR CARE INC",
     "address": "10923 FM 1902",
     "due": 820.0
+  },
+  {
+    "account": "00014781650",
+    "owner": "DIAMOND KEAN DFW LLC",
+    "address": "6501 S COOPER ST STE 141",
+    "due": 819.91
   },
   {
     "account": "00010688528",
@@ -50218,6 +50272,12 @@
     "owner": "AZLE MOBILE PROP CO",
     "address": "PO BOX 1263",
     "due": 795.7
+  },
+  {
+    "account": "00041009843",
+    "owner": "CARABAJAL GREGORY",
+    "address": "906 HAMPTON RD",
+    "due": 795.29
   },
   {
     "account": "00013806777",
@@ -54216,6 +54276,12 @@
     "due": 702.39
   },
   {
+    "account": "00013664840",
+    "owner": "NORTEX LAB STORE LLC",
+    "address": "4645 MATLOCK RD STE 103",
+    "due": 702.32
+  },
+  {
     "account": "00007481446",
     "owner": "LACHANCE, JAMES A",
     "address": "6913 WILLOW CREST DR",
@@ -55702,6 +55768,12 @@
     "owner": "NICHOLS GLEN",
     "address": "1929 GOLDEN HEIGHTS RD STE 300",
     "due": 675.53
+  },
+  {
+    "account": "00002046636",
+    "owner": "THORN DEREK",
+    "address": "2924 TANGLE OAKS CT",
+    "due": 675.43
   },
   {
     "account": "00013780956",
@@ -60666,12 +60738,6 @@
     "due": 583.39
   },
   {
-    "account": "00006665462",
-    "owner": "HASSAN SVED AND HASSAN TAZEEN",
-    "address": "601 ENGLESIDE DR",
-    "due": 583.22
-  },
-  {
     "account": "00009101934",
     "owner": "LASALLE, WILLIAM",
     "address": "4052 GLENBROOK DR",
@@ -60694,12 +60760,6 @@
     "owner": "ROSALES LUIS EDUARDO",
     "address": "3156 BONAVENTURE 93",
     "due": 582.16
-  },
-  {
-    "account": "00010297170",
-    "owner": "AMAKA CHARLES",
-    "address": "1720 S COOPER ST",
-    "due": 582.15
   },
   {
     "account": "00013633899",
@@ -62724,6 +62784,12 @@
     "due": 547.0
   },
   {
+    "account": "00014924833",
+    "owner": "XPEED GK CORP",
+    "address": "12535 MCCANN DR",
+    "due": 547.0
+  },
+  {
     "account": "00061810630",
     "owner": "FENWOOD ASSOCIATES",
     "address": "370 7TH AVE STE 618",
@@ -62986,12 +63052,6 @@
     "owner": "FREEDOM INVESTMENTS CORP",
     "address": "7612 PORTMAN AVE",
     "due": 543.81
-  },
-  {
-    "account": "00013633716",
-    "owner": "BILLY MBUYI",
-    "address": "7936 FOREST HILLS CT",
-    "due": 543.77
   },
   {
     "account": "00013561820",
@@ -66906,12 +66966,6 @@
     "due": 487.03
   },
   {
-    "account": "00010061231",
-    "owner": "HILL SUNNE",
-    "address": "7674 MCCART AVE",
-    "due": 486.99
-  },
-  {
     "account": "00014592067",
     "owner": "ELIZA DAME LLC",
     "address": "1985 E RENFRO ST",
@@ -67098,6 +67152,12 @@
     "due": 484.69
   },
   {
+    "account": "00001347845",
+    "owner": "ESCOBEDO JAVIER",
+    "address": "PO BOX 111283",
+    "due": 484.68
+  },
+  {
     "account": "00012309206",
     "owner": "CASTRO IGNACIO",
     "address": "8689 EAGLE MOUNTAIN CIR",
@@ -67192,12 +67252,6 @@
     "owner": "ANDERSON CEDRIC WAYNE",
     "address": "5500 E LOOP 820 S STE 203",
     "due": 483.42
-  },
-  {
-    "account": "00014974377",
-    "owner": "BRANDON PEYTON",
-    "address": "9601 CHOLLA CACTUS TR",
-    "due": 483.37
   },
   {
     "account": "00041581636",
@@ -69094,12 +69148,6 @@
     "owner": "TIMBER VIEW GOLF COURSE INC",
     "address": "4360 BELTWAY PL STE 240",
     "due": 458.88
-  },
-  {
-    "account": "00014630597",
-    "owner": "MARVEL GROUP LLC",
-    "address": "2208 STATE HWY 121 STE 180",
-    "due": 458.83
   },
   {
     "account": "00014298436",
@@ -74856,12 +74904,6 @@
     "due": 391.73
   },
   {
-    "account": "00014515411",
-    "owner": "HISTORY MAKER HOMES LLC",
-    "address": "9001 AIRPORT FWY STE 460",
-    "due": 391.63
-  },
-  {
     "account": "00067877419",
     "owner": "WALLISA CINDY L",
     "address": "910 KENOMA W",
@@ -75034,6 +75076,12 @@
     "owner": "AGAPE MATTRESS LLC",
     "address": "4822 LITTLE RD",
     "due": 389.77
+  },
+  {
+    "account": "51000056691",
+    "owner": "MURREY JOSHUA & KATRINA",
+    "address": "6600 PECANWOOD CT",
+    "due": 389.72
   },
   {
     "account": "00009352902",
@@ -76572,12 +76620,6 @@
     "due": 373.43
   },
   {
-    "account": "00002242974",
-    "owner": "SHIPMAN ELIZABETH ANNETTE",
-    "address": "3615 AVENUE J",
-    "due": 373.37
-  },
-  {
     "account": "00010481575",
     "owner": "LITTLE, DONNA",
     "address": "7800 FOREST HILL DR TRLR 6",
@@ -76678,6 +76720,12 @@
     "owner": "RDH ENTERPRISES LLC",
     "address": "29 LINDERHOF CIR",
     "due": 372.08
+  },
+  {
+    "account": "00010061231",
+    "owner": "HILL SUNNE",
+    "address": "7674 MCCART AVE",
+    "due": 372.03
   },
   {
     "account": "00041651308",
@@ -77122,6 +77170,12 @@
     "owner": "ACREY SUSAN",
     "address": "PO BOX 6744",
     "due": 367.35
+  },
+  {
+    "account": "00001588257",
+    "owner": "CHATMAN MAXINE D",
+    "address": "7521 CASTILLO RD",
+    "due": 367.19
   },
   {
     "account": "00072095415",
@@ -79320,6 +79374,12 @@
     "due": 346.08
   },
   {
+    "account": "00006665462",
+    "owner": "HASSAN SVED AND HASSAN TAZEEN",
+    "address": "601 ENGLESIDE DR",
+    "due": 345.92
+  },
+  {
     "account": "00014676007",
     "owner": "HOBBY SHOP ENTERPRISES LLC",
     "address": "2611 RYAN PLACE DR",
@@ -80368,6 +80428,12 @@
     "owner": "YOUNG BILLY M AND BARBARA J",
     "address": "708 OAK GROVE RD E",
     "due": 334.67
+  },
+  {
+    "account": "00014765077",
+    "owner": "MI CASITA PRESCHOOL FORT WORTHTAX DEPT",
+    "address": "6002 SOUTHWEST BLVD",
+    "due": 334.55
   },
   {
     "account": "00041565169",
@@ -82782,6 +82848,12 @@
     "due": 312.24
   },
   {
+    "account": "00004676831",
+    "owner": "ESCOBEDO JAVIER",
+    "address": "PO BOX 111283",
+    "due": 312.15
+  },
+  {
     "account": "00069851357",
     "owner": "JARRETT CRYSTAL",
     "address": "4312 LOCKE AVE",
@@ -82864,6 +82936,12 @@
     "owner": "FUSION DRYWALL CORP",
     "address": "1815 E PARK ROW DR STE A",
     "due": 311.34
+  },
+  {
+    "account": "00005772095",
+    "owner": "MOXIE HOLDINGS LLC",
+    "address": "2604 NAPLES LN",
+    "due": 311.33
   },
   {
     "account": "00070440680",
@@ -89826,6 +89904,12 @@
     "due": 260.22
   },
   {
+    "account": "00013641034",
+    "owner": "DOGGIE DIGGS LLC",
+    "address": "221 E BROADWAY AVE",
+    "due": 260.12
+  },
+  {
     "account": "00062807501",
     "owner": "TYE ROGER",
     "address": "9632 COUNTY ROAD 409A",
@@ -90868,6 +90952,12 @@
     "owner": "AMA BENSON",
     "address": "732 E PIPELINE RD",
     "due": 252.32
+  },
+  {
+    "account": "00007918801",
+    "owner": "ALCACIO LUIS",
+    "address": "5701 MARTIN SHRS TRLR 17",
+    "due": 252.17
   },
   {
     "account": "00011794976",
@@ -95562,6 +95652,12 @@
     "due": 225.78
   },
   {
+    "account": "00010407693",
+    "owner": "BROWN NANCY",
+    "address": "4913 WESTHAVEN DR",
+    "due": 225.76
+  },
+  {
     "account": "00062460897",
     "owner": "THORNTON RONALD L",
     "address": "12320 DOGWOOD SPRINGS DR",
@@ -96670,12 +96766,6 @@
     "owner": "HAYNES ESTHER E",
     "address": "5602 TRAIL LAKE DR",
     "due": 219.9
-  },
-  {
-    "account": "00014319484",
-    "owner": "CARRILLO MACRINA",
-    "address": "4145 S ADAMS ST",
-    "due": 219.84
   },
   {
     "account": "00014225064",
@@ -101734,6 +101824,12 @@
     "owner": "% ROBERT ISHMAEL",
     "address": "4237 MATTHEW RD",
     "due": 194.36
+  },
+  {
+    "account": "00011633425",
+    "owner": "JENCAP INSURANCE SERVICES",
+    "address": "3800 SANDSHELL DR STE 190",
+    "due": 194.35
   },
   {
     "account": "00012031011",
@@ -112632,6 +112728,12 @@
     "due": 151.55
   },
   {
+    "account": "00014319484",
+    "owner": "CARRILLO MACRINA",
+    "address": "4145 S ADAMS ST",
+    "due": 151.54
+  },
+  {
     "account": "00064158642",
     "owner": "Unknown",
     "address": "Unknown",
@@ -116160,6 +116262,12 @@
     "due": 140.08
   },
   {
+    "account": "62000018154",
+    "owner": "TAX DEPARTMENT",
+    "address": "1299 ZURICH WAY STE 4E",
+    "due": 140.08
+  },
+  {
     "account": "00007688229",
     "owner": "COKER, SHIRLEY",
     "address": "5700 SHORELINE CIR S",
@@ -119401,8 +119509,8 @@
   },
   {
     "account": "53000151184",
-    "owner": "MADISON CAPITAL ENERGY INCOME FUND I",
-    "address": "402 GAMMON PL STE 320",
+    "owner": "MADISON CAPITAL ENERGY INCOME FUND I LP",
+    "address": "MADISON ROYALTY MGMT 402 GAMMO",
     "due": 130.19
   },
   {
@@ -123576,12 +123684,6 @@
     "due": 119.6
   },
   {
-    "account": "00000606022",
-    "owner": "NOBLE JERRY EST AND NOBLE ROSA",
-    "address": "5812 BONANZA DR TRLR 74",
-    "due": 119.59
-  },
-  {
     "account": "00911067841",
     "owner": "SPENCER INC",
     "address": "01724 S UNIVERSITY DR",
@@ -125850,12 +125952,6 @@
     "due": 114.28
   },
   {
-    "account": "00014515402",
-    "owner": "HISTORY MAKER HOMES LLC",
-    "address": "9001 AIRPORT FWY STE 460",
-    "due": 114.28
-  },
-  {
     "account": "00040414825",
     "owner": "OLIVARES, JAVIER",
     "address": "498 ISBELL CT",
@@ -126397,7 +126493,7 @@
   },
   {
     "account": "59000003353",
-    "owner": "LENTS RICKEY L",
+    "owner": "RANKIN KATHY D",
     "address": "2437 CYPRESS LN",
     "due": 113.07
   },
@@ -126513,12 +126609,6 @@
     "account": "00014991441",
     "owner": "TULIP COOKING",
     "address": "209 RIVER RD EXT",
-    "due": 112.96
-  },
-  {
-    "account": "00014989978",
-    "owner": "IES HEALTHCARE",
-    "address": "4835 LBJ FRWY STE 900",
     "due": 112.96
   },
   {
@@ -132051,12 +132141,6 @@
     "account": "00013404873",
     "owner": "FOREST SANDRA",
     "address": "10736 CR 173 N LOT 4",
-    "due": 100.61
-  },
-  {
-    "account": "00014693688",
-    "owner": "SHOP COMPANIES",
-    "address": "4809 COLE AVE STE 330",
     "due": 100.61
   },
   {
