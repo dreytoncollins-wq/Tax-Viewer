@@ -3,10 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tarrant Tax Delinquency Explorer</title>
+  <title>Tarrant County Tax Hawk</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
   <style>
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(229, 231, 235, 0.5);
+    }
     tr:hover td { background-color: #f3f4f6; }
     .custom-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
     .custom-scroll::-webkit-scrollbar-track { background: #f1f1f1; }
@@ -25,58 +30,50 @@
         <h1 class="text-xl font-bold tracking-wide">Tarrant County Tax Hawk</h1>
       </div>
       <div class="text-sm text-slate-400">
-        <span class="hidden sm:inline">Filtered:</span>
-        <span id="record-count" class="text-white font-mono">0</span>
-        <span class="hidden sm:inline">records</span>
+        Data Source: <span id="record-count" class="text-white font-mono">0</span> records loaded
       </div>
     </div>
   </nav>
 
-  <!-- Control Bar -->
+  <!-- Main Control Bar -->
   <div class="bg-white border-b border-slate-200 p-4 shrink-0 shadow-sm z-10">
-    <div class="container mx-auto flex flex-col lg:flex-row gap-4 justify-between items-end lg:items-center">
+    <div class="container mx-auto flex flex-col md:flex-row gap-4 justify-between items-end md:items-center">
 
       <!-- Search -->
-      <div class="relative w-full lg:w-[28rem]">
+      <div class="relative w-full md:w-96">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <i class="fa-solid fa-search text-slate-400"></i>
         </div>
         <input type="text" id="searchInput"
-          class="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded-lg leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition"
-          placeholder="Search owner, address, account #, roll code...">
+          class="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded-lg leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out"
+          placeholder="Search owner, address, account #..." />
       </div>
 
-      <!-- Filters + Stats + Actions -->
-      <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center w-full lg:w-auto">
-
-        <div class="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2">
-          <label class="flex items-center gap-2 text-sm font-medium text-slate-700 select-none cursor-pointer">
-            <input id="realOnlyToggle" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
-            Real Property Only
-          </label>
-          <span class="text-xs text-slate-500">(excludes personal property / other)</span>
-        </div>
-
-        <div class="hidden md:flex flex-col items-end px-3">
-          <span class="text-xs text-slate-500 uppercase tracking-wider">Total Due (Filtered)</span>
+      <!-- Stats & Actions -->
+      <div class="flex gap-3 items-center">
+        <div class="hidden md:flex flex-col items-end mr-4">
+          <span class="text-xs text-slate-500 uppercase tracking-wider">Total Delinquency</span>
           <span id="total-debt" class="text-lg font-bold text-red-600">$0.00</span>
         </div>
 
-        <!-- Load JSON Button (Option A) -->
-        <label class="cursor-pointer bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm flex items-center justify-center gap-2">
+        <!-- Manual Load (still available as fallback) -->
+        <label class="cursor-pointer bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm flex items-center gap-2 border border-slate-300">
           <i class="fa-solid fa-upload"></i> Load JSON
-          <input type="file" id="fileInput" accept=".json" class="hidden">
+          <input type="file" id="fileInput" accept=".json" class="hidden" />
         </label>
 
-        <button id="exportBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm flex items-center justify-center gap-2">
+        <button onclick="loadData(true)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm flex items-center gap-2">
+          <i class="fa-solid fa-rotate"></i> Reload (GitHub)
+        </button>
+
+        <button onclick="exportCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm flex items-center gap-2">
           <i class="fa-solid fa-file-csv"></i> Export CSV
         </button>
       </div>
-
     </div>
   </div>
 
-  <!-- Main -->
+  <!-- Data Table Container -->
   <div class="flex-1 overflow-auto custom-scroll p-4 md:p-8">
     <div class="container mx-auto">
 
@@ -87,11 +84,12 @@
         </div>
         <h2 class="text-2xl font-bold text-slate-700 mb-2">No Records Loaded</h2>
         <p class="text-slate-500 max-w-md mx-auto mb-6">
-          Click <strong>Load JSON</strong> and select your <code>delinquent_records.json</code>.
+          This site will try to auto-load <code>delinquent_records.json</code> from GitHub Pages on startup.
+          If it fails, use <strong>Load JSON</strong>.
         </p>
-        <div class="text-sm text-amber-700 bg-amber-50 p-4 rounded-lg inline-block max-w-lg border border-amber-200">
-          <i class="fa-solid fa-triangle-exclamation mr-2"></i>
-          If you want only real property taxes, turn on <strong>Real Property Only</strong>.
+        <div id="autoload-status" class="text-sm text-amber-600 bg-amber-50 p-4 rounded-lg inline-block max-w-lg border border-amber-200">
+          <i class="fa-solid fa-circle-info mr-2"></i>
+          Attempting auto-load from GitHub Pages...
         </div>
       </div>
 
@@ -100,19 +98,33 @@
         <table class="min-w-full divide-y divide-slate-200">
           <thead class="bg-slate-50">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Owner Name</th>
-              <th class="px-6 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Property Address</th>
-              <th class="px-6 py-3 text-center text-xs font-bold text-slate-500 uppercase tracking-wider">Tax Type</th>
-              <th class="px-6 py-3 text-center text-xs font-bold text-slate-500 uppercase tracking-wider">Roll Code</th>
-              <th class="px-6 py-3 text-right text-xs font-bold text-slate-500 uppercase tracking-wider">Amount Due</th>
-              <th class="px-6 py-3 text-center text-xs font-bold text-slate-500 uppercase tracking-wider">Action</th>
+              <th scope="col"
+                class="px-6 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100 group"
+                onclick="sortTable('owner')">
+                Owner Name <i class="fa-solid fa-sort text-slate-300 group-hover:text-slate-500 ml-1"></i>
+              </th>
+              <th scope="col"
+                class="px-6 py-3 text-left text-xs font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100 group"
+                onclick="sortTable('address')">
+                Property Address <i class="fa-solid fa-sort text-slate-300 group-hover:text-slate-500 ml-1"></i>
+              </th>
+              <th scope="col"
+                class="px-6 py-3 text-right text-xs font-bold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-100 group"
+                onclick="sortTable('due')">
+                Amount Due <i class="fa-solid fa-sort text-slate-300 group-hover:text-slate-500 ml-1"></i>
+              </th>
+              <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Action
+              </th>
             </tr>
           </thead>
-          <tbody id="table-body" class="bg-white divide-y divide-slate-200"></tbody>
+          <tbody id="table-body" class="bg-white divide-y divide-slate-200">
+            <!-- Rows injected via JS -->
+          </tbody>
         </table>
       </div>
 
-      <!-- Loading Overlay -->
+      <!-- Loading Indicator -->
       <div id="loader" class="hidden fixed inset-0 bg-white/80 z-50 flex items-center justify-center">
         <div class="flex flex-col items-center">
           <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
@@ -126,138 +138,158 @@
   <script>
     let allRecords = [];
     let filteredRecords = [];
+    let sortDirection = -1; // -1 desc, 1 asc
 
     const currency = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
 
-    const els = {
-      fileInput: document.getElementById('fileInput'),
-      search: document.getElementById('searchInput'),
-      realOnly: document.getElementById('realOnlyToggle'),
-      empty: document.getElementById('empty-state'),
-      tableWrap: document.getElementById('table-container'),
-      tbody: document.getElementById('table-body'),
-      totalDebt: document.getElementById('total-debt'),
-      recordCount: document.getElementById('record-count'),
-      loader: document.getElementById('loader'),
-      exportBtn: document.getElementById('exportBtn'),
-    };
+    // Event Listeners
+    document.getElementById('fileInput').addEventListener('change', handleFileUpload);
+    document.getElementById('searchInput').addEventListener('input', (e) => filterData(e.target.value));
 
-    function toggleLoader(show) {
-      if (show) els.loader.classList.remove('hidden');
-      else els.loader.classList.add('hidden');
-    }
+    // ✅ Auto-load from GitHub Pages on startup
+    window.addEventListener('DOMContentLoaded', () => {
+      loadData(false);
+    });
 
-    // --- File upload (Option A) ---
-    els.fileInput.addEventListener('change', (event) => {
+    // File Upload Handler (fallback)
+    function handleFileUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
 
       toggleLoader(true);
 
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = function (e) {
         try {
-          const data = JSON.parse(e.target.result);
-
-          if (!Array.isArray(data)) throw new Error("JSON must be an array of records");
-
-          // Normalize keys defensively (in case older JSON exists)
-          allRecords = data.map(r => ({
-            account: (r.account ?? "").toString(),
-            owner: r.owner ?? "Unknown",
-            address: r.address ?? "N/A",
-            due: Number(r.due ?? 0),
-            tax_type: r.tax_type ?? r.taxType ?? "UNKNOWN",
-            roll_code: (r.roll_code ?? r.rollCode ?? "").toString()
-          }));
-
-          // Show table
-          els.empty.classList.add('hidden');
-          els.tableWrap.classList.remove('hidden');
-
-          applyFilters();
+          allRecords = JSON.parse(e.target.result);
+          filteredRecords = [...allRecords];
+          setAutoloadStatus("Loaded from local file.", "success");
+          initData();
         } catch (err) {
-          alert("Error parsing JSON. Make sure you selected the correct delinquent_records.json file.");
+          alert("Error parsing JSON. Please ensure the file was generated correctly.");
           console.error(err);
+          setAutoloadStatus("Failed to parse local JSON.", "error");
         } finally {
           toggleLoader(false);
         }
       };
       reader.readAsText(file);
-    });
+    }
 
-    // --- Filter + render ---
-    els.search.addEventListener('input', applyFilters);
-    els.realOnly.addEventListener('change', applyFilters);
+    /**
+     * ✅ Auto fetches delinquent_records.json from the SAME folder as index.html
+     * - Uses cache-busting so your updates show immediately after you push to GitHub.
+     * - If it fails, the UI stays in empty-state and user can use Load JSON.
+     *
+     * @param {boolean} userInitiated - if true, show a more explicit status message
+     */
+    async function loadData(userInitiated) {
+      toggleLoader(true);
+      setAutoloadStatus(
+        userInitiated ? "Reloading from GitHub Pages..." : "Attempting auto-load from GitHub Pages...",
+        "info"
+      );
 
-    function applyFilters() {
-      const q = els.search.value.trim().toLowerCase();
-      const realOnly = els.realOnly.checked;
+      try {
+        // Build a correct URL regardless of /Tax-Viewer/ path
+        const url = new URL('delinquent_records.json', window.location.href);
 
-      filteredRecords = allRecords.filter(r => {
-        if (realOnly && r.tax_type !== "REAL_PROPERTY") return false;
+        // Cache-bust to avoid stale JSON after updates
+        url.searchParams.set('v', Date.now().toString());
 
-        if (!q) return true;
+        const response = await fetch(url.toString(), { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status} - ${response.statusText}`);
 
-        return (
-          (r.owner || "").toLowerCase().includes(q) ||
-          (r.address || "").toLowerCase().includes(q) ||
-          (r.account || "").includes(q) ||
-          (r.roll_code || "").toLowerCase().includes(q)
+        allRecords = await response.json();
+        filteredRecords = [...allRecords];
+
+        setAutoloadStatus("Auto-loaded from GitHub Pages successfully.", "success");
+        initData();
+
+      } catch (error) {
+        console.warn("Auto-load failed. Use Load JSON to select the file manually.", error);
+        setAutoloadStatus(
+          "Auto-load failed. Click Load JSON to select the file manually (or confirm delinquent_records.json is deployed).",
+          "error"
         );
-      });
+      } finally {
+        toggleLoader(false);
+      }
+    }
 
-      // Sort by due desc
-      filteredRecords.sort((a, b) => (b.due || 0) - (a.due || 0));
+    function initData() {
+      document.getElementById('empty-state').classList.add('hidden');
+      document.getElementById('table-container').classList.remove('hidden');
+      document.getElementById('record-count').textContent = allRecords.length.toLocaleString();
+
+      // Initial sort by Amount Due (Desc)
+      sortDirection = 1; // Will flip to -1 in sortTable
+      sortTable('due');
+    }
+
+    function filterData(query) {
+      const lowerQuery = query.toLowerCase();
+      filteredRecords = allRecords.filter(record =>
+        (record.owner && record.owner.toLowerCase().includes(lowerQuery)) ||
+        (record.address && record.address.toLowerCase().includes(lowerQuery)) ||
+        (record.account && record.account.toString().includes(lowerQuery))
+      );
+      renderTable();
+    }
+
+    function sortTable(key) {
+      sortDirection *= -1;
+
+      filteredRecords.sort((a, b) => {
+        let valA = a[key];
+        let valB = b[key];
+
+        if (typeof valA === 'string') valA = valA.toLowerCase();
+        if (typeof valB === 'string') valB = valB.toLowerCase();
+
+        if (valA < valB) return -1 * sortDirection;
+        if (valA > valB) return 1 * sortDirection;
+        return 0;
+      });
 
       renderTable();
     }
 
-    function badgeForTaxType(taxType) {
-      if (taxType === "REAL_PROPERTY") {
-        return `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800">REAL</span>`;
-      }
-      if (taxType === "PERSONAL_PROPERTY") {
-        return `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-amber-100 text-amber-800">PERS</span>`;
-      }
-      return `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-slate-200 text-slate-700">OTHER</span>`;
-    }
-
     function renderTable() {
-      let html = "";
-      let total = 0;
+      const tbody = document.getElementById('table-body');
+      const totalDebtEl = document.getElementById('total-debt');
 
-      const displayLimit = 200;
-      const rows = filteredRecords.slice(0, displayLimit);
+      const displayLimit = 100;
+      const recordsToDisplay = filteredRecords.slice(0, displayLimit);
 
-      filteredRecords.forEach(r => total += (r.due || 0));
+      let html = '';
+      let totalDue = 0;
 
-      rows.forEach(r => {
-        const isHigh = (r.due || 0) > 5000;
+      // Total based on current filtered records
+      filteredRecords.forEach(r => totalDue += (Number(r.due) || 0));
+
+      recordsToDisplay.forEach(record => {
+        const amountDue = parseFloat(record.due || 0);
+        const isHighPriority = amountDue > 5000;
 
         html += `
           <tr class="transition-colors">
             <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm font-medium text-slate-900">${escapeHtml(r.owner)}</div>
-              <div class="text-xs text-slate-500">Acct: ${escapeHtml(r.account)}</div>
+              <div class="text-sm font-medium text-slate-900">${escapeHtml(record.owner || 'Unknown')}</div>
+              <div class="text-xs text-slate-500">Acct: ${escapeHtml(record.account ?? '')}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm text-slate-700">${escapeHtml(r.address)}</div>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-center">
-              ${badgeForTaxType(r.tax_type)}
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-center font-mono text-xs text-slate-600">
-              ${escapeHtml(r.roll_code || "")}
+              <div class="text-sm text-slate-700">${escapeHtml(record.address || 'N/A')}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-right">
-              <div class="text-sm font-bold ${isHigh ? 'text-red-600' : 'text-slate-700'}">
-                ${currency.format(r.due || 0)}
+              <div class="text-sm font-bold ${isHighPriority ? 'text-red-600' : 'text-slate-700'}">
+                ${currency.format(amountDue)}
               </div>
-              ${isHigh ? '<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">High</span>' : ''}
+              ${isHighPriority ? '<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">High</span>' : ''}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-              <a href="https://tax.tarrantcountytx.gov/search" target="_blank" class="text-blue-600 hover:text-blue-900 hover:underline">
+              <a href="https://tax.tarrantcountytx.gov/search" target="_blank" rel="noopener"
+                 class="text-blue-600 hover:text-blue-900 hover:underline">
                 Verify <i class="fa-solid fa-external-link-alt text-xs ml-1"></i>
               </a>
             </td>
@@ -265,59 +297,81 @@
         `;
       });
 
-      if (!filteredRecords.length) {
-        html = `<tr><td colspan="6" class="px-6 py-10 text-center text-slate-500">No records match your filters.</td></tr>`;
+      if (filteredRecords.length === 0) {
+        html = `<tr><td colspan="4" class="px-6 py-10 text-center text-slate-500">No records found matching your search.</td></tr>`;
       } else if (filteredRecords.length > displayLimit) {
-        html += `<tr><td colspan="6" class="px-6 py-4 text-center text-slate-400 text-xs italic">Showing top ${displayLimit} of ${filteredRecords.length} results. Refine search to see more.</td></tr>`;
+        html += `<tr><td colspan="4" class="px-6 py-4 text-center text-slate-400 text-xs italic">Showing top 100 of ${filteredRecords.length} results. Refine search to see more.</td></tr>`;
       }
 
-      els.tbody.innerHTML = html;
-      els.totalDebt.textContent = currency.format(total);
-      els.recordCount.textContent = filteredRecords.length.toLocaleString();
+      tbody.innerHTML = html;
+      totalDebtEl.innerText = currency.format(totalDue);
     }
 
-    // --- CSV export (filtered only) ---
-    els.exportBtn.addEventListener('click', exportCSV);
-
     function exportCSV() {
-      if (!filteredRecords.length) return alert("No data to export.");
+      if (!filteredRecords.length) return alert("No data to export");
 
-      const headers = ["Account","Owner","Address","Tax Type","Roll Code","Amount Due"];
-      const rows = filteredRecords.map(r => [
-        csvCell(r.account),
-        csvCell(r.owner),
-        csvCell(r.address),
-        csvCell(r.tax_type),
-        csvCell(r.roll_code),
-        (r.due ?? 0)
-      ]);
+      const headers = ["Account", "Owner", "Address", "Amount Due"];
+      const csvContent = [
+        headers.join(","),
+        ...filteredRecords.map(r => [
+          safeCsv(r.account),
+          safeCsv(r.owner),
+          safeCsv(r.address),
+          (r.due ?? "")
+        ].join(","))
+      ].join("\n");
 
-      const csv = [headers, ...rows].map(r => r.join(",")).join("\n");
-      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
 
       const link = document.createElement("a");
-      link.href = url;
-      link.download = "tarrant_delinquency_filtered.csv";
+      link.setAttribute("href", url);
+      link.setAttribute("download", "delinquent_tax_report.csv");
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      URL.revokeObjectURL(url);
     }
 
-    // --- small helpers ---
-    function csvCell(v) {
-      const s = (v ?? "").toString().replaceAll('"', '""');
-      return `"${s}"`;
+    function toggleLoader(show) {
+      const loader = document.getElementById('loader');
+      if (show) loader.classList.remove('hidden');
+      else loader.classList.add('hidden');
     }
 
-    function escapeHtml(str) {
-      return (str ?? "").toString()
+    function setAutoloadStatus(message, type) {
+      const el = document.getElementById('autoload-status');
+      if (!el) return;
+
+      // Reset classes (keep base)
+      el.className = "text-sm p-4 rounded-lg inline-block max-w-lg border";
+
+      if (type === "success") {
+        el.classList.add("text-emerald-700", "bg-emerald-50", "border-emerald-200");
+        el.innerHTML = `<i class="fa-solid fa-check-circle mr-2"></i><strong>Success:</strong> ${escapeHtml(message)}`;
+      } else if (type === "error") {
+        el.classList.add("text-red-700", "bg-red-50", "border-red-200");
+        el.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-2"></i><strong>Error:</strong> ${escapeHtml(message)}`;
+      } else {
+        el.classList.add("text-amber-600", "bg-amber-50", "border-amber-200");
+        el.innerHTML = `<i class="fa-solid fa-circle-info mr-2"></i>${escapeHtml(message)}`;
+      }
+    }
+
+    // Helpers
+    function escapeHtml(value) {
+      const str = String(value ?? "");
+      return str
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+    }
+
+    function safeCsv(value) {
+      const str = String(value ?? "");
+      // Quote + escape internal quotes
+      return `"${str.replaceAll('"', '""')}"`;
     }
   </script>
 </body>
